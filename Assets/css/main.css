@@ -1,0 +1,150 @@
+/* General Styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* Navbar */
+.navbar-nav {
+  justify-content: center;
+  gap: 20px;
+}
+
+.navbar-toggler {
+  border: none;
+}
+
+.navbar-brand {
+  font-weight: bold;
+  color: #f8c200;
+  font-size: 1.3rem;
+}
+
+.navbar-brand:hover {
+  color: #fff;
+}
+
+
+/* Hero Section */
+.hero-section {
+  background: url('../../Assets/p1.jpeg') no-repeat center center / cover;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: white;
+  position: relative;
+}
+
+.hero-section::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Dark overlay for text readability */
+  z-index: 1;
+}
+
+.hero-section h1, .hero-section p {
+  position: relative;
+  z-index: 2;
+}
+
+.hero-section h1 {
+  font-size: 3rem;
+  font-weight: bold;
+}
+
+.hero-section p {
+  font-size: 1.5rem;
+  margin-top: 10px;
+}
+
+/* Projects Section */
+.projects-section {
+  max-height: calc(100vh - 300px);
+  overflow-y: auto;
+  scrollbar-width: none; /* For Firefox */
+  -ms-overflow-style: none; /* For Internet Explorer and Edge */
+}
+
+.projects-section::-webkit-scrollbar {
+  display: none; /* Hide scrollbar for Chrome, Safari, and Opera */
+}
+
+.fixed-section {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  background: #f8f9fa;
+  padding: 20px;
+}
+
+/* Card Hover Effect */
+.card:hover {
+  transform: translateY(-5px);
+  transition: 0.3s ease-in-out;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Footer */
+footer {
+  background: #212529;
+  color: white;
+  padding: 20px 0;
+}
+
+footer p {
+  margin: 0;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .hero-section h1 {
+    font-size: 2rem;
+  }
+
+  .hero-section p {
+    font-size: 1rem;
+  }
+
+  .fixed-section {
+    height: auto;
+    padding: 15px;
+  }
+
+  /* For the project cards */
+  .projects-section .col-md-4 {
+    width: 100%;
+  }
+}
+
+/* For the project cards layout (Full width for the first card and two cards per row after) */
+.projects-section .row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.projects-section .row .col-md-4 {
+  width: 100%;
+}
+
+.projects-section .row .col-md-4:nth-child(1) {
+  width: 100%;
+}
+
+.projects-section .row .col-md-4:nth-child(2),
+.projects-section .row .col-md-4:nth-child(3) {
+  width: 48%;
+}
+
+.projects-section .row .col-md-4:nth-child(4),
+.projects-section .row .col-md-4:nth-child(5) {
+  width: 48%;
+}
