@@ -68,13 +68,30 @@ body {
 /* Projects Section */
 .projects-section {
   max-height: calc(100vh - 300px);
-  overflow-y: auto;
-  scrollbar-width: none; /* For Firefox */
-  -ms-overflow-style: none; /* For Internet Explorer and Edge */
+  overflow-y: scroll; /* Enable scrolling */
+  scrollbar-width: none; /* Hide scrollbar for Firefox */
+  -ms-overflow-style: none; /* Hide scrollbar for Internet Explorer and Edge */
+  position: relative;
 }
 
 .projects-section::-webkit-scrollbar {
-  display: none; /* Hide scrollbar for Chrome, Safari, and Opera */
+  width: 0; /* No scrollbar width for Chrome, Safari, and Opera */
+  height: 0; /* No horizontal scrollbar */
+}
+
+.projects-section::-webkit-scrollbar-thumb {
+  display: none; /* Explicitly hide the scrollbar thumb */
+}
+
+.projects-section::-webkit-scrollbar-track {
+  display: none; /* Explicitly hide the scrollbar track */
+}
+
+/* Card Hover Effect */
+.card:hover {
+  transform: translateY(-5px);
+  transition: 0.3s ease-in-out;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .fixed-section {
@@ -148,3 +165,5 @@ footer p {
 .projects-section .row .col-md-4:nth-child(5) {
   width: 48%;
 }
+
+

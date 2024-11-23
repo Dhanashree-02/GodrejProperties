@@ -12,8 +12,10 @@ if ($conn->connect_error) {
 }
 
 // Fetch project data
-$sql = "SELECT name, website, image, location, price FROM projects"; // Your table name
+$sql = "SELECT name, CONCAT('admin/uploads/project_674197969ba92.jpg', image) AS image_path, location, price, description, website FROM projects";
+
 $result = $conn->query($sql);
+
 ?>
 
 <!DOCTYPE html>
@@ -45,10 +47,11 @@ $result = $conn->query($sql);
         <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link active" href="#projects">Projects</a>
+                    <a class="nav-link" href="#projects" data-bs-toggle="modal" data-bs-target="#aboutUsModal">Projects</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#about">About Us</a>
+                    <!-- Updated About Us Link -->
+                    <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#aboutUsModal">About Us</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#contact">Contact</a>
@@ -60,9 +63,9 @@ $result = $conn->query($sql);
                         Cities
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#">Pune</a></li>
-                        <li><a class="dropdown-item" href="#">Mumbai</a></li>
-                        <li><a class="dropdown-item" href="#">Noida</a></li>
+                        <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#aboutUsModal" >Pune</a></li>
+                        <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#aboutUsModal" >Mumbai</a></li>
+                        <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#aboutUsModal" >Noida</a></li>
                     </ul>
                 </li>
 
@@ -86,8 +89,8 @@ $result = $conn->query($sql);
 <!-- Two Div Section -->
 <div class="container-fluid mt-5">
     <div class="row">
-        <!-- First Row: Contact Form on the left -->
-        <div class="col-md-3">
+        <!-- Contact Form on the left -->
+        <div class="col-md-4">
             <h4 class="fw-bold">Contact Us</h4>
             <form action="your-form-handler.php" method="POST">
                 <div class="row">
@@ -114,35 +117,67 @@ $result = $conn->query($sql);
             </form>
         </div>
 
-        <!-- Second Row: Full-Width Project Cards -->
-        <div class="col-md-9" style="max-height: 600px; overflow-y: auto;"> <!-- Scrollable container -->
-            <div class="row">
-                <?php
-                if ($result->num_rows > 0) {
-                    while ($row = $result->fetch_assoc()) {
-                        echo '<div class="col-12 mb-4">';
-                        echo '<div class="card shadow-sm d-flex flex-row">'; 
-                        
-                        // Image on the left side
-                        echo '<div class="col-md-4 p-0">';
-                        echo '<img src="' . $row['image'] . '" class="card-img-left" alt="' . $row['name'] . '" style="width: 100%; height: 100%; object-fit: cover;">';
-                        echo '</div>';
-                        
-                        // Information on the right side
-                        echo '<div class="col-md-8 card-body">';
-                        echo '<h5 class="card-title">' . $row['name'] . '</h5>';
-                        echo '<p><strong>Location:</strong> ' . $row['location'] . '</p>';
-                        echo '<p><strong>Price:</strong> ' . $row['price'] . '</p>';
-                        echo '<a href="' . $row['website'] . '" target="_blank" class="btn btn-primary">View Details</a>';
-                        echo '</div>';
-                        
-                        echo '</div>';
-                        echo '</div>';
-                    }
-                } else {
-                    echo '<p class="text-center">No projects available.</p>';
-                }
-                ?>
+        <!-- Project Cards -->
+             <div class="col-md-8" style="max-height: 600px; overflow-y: auto;">
+                <div class="row">
+                    <?php
+                     if ($result->num_rows > 0) {
+                        while ($row = $result->fetch_assoc()) {
+                            ?>
+                            <div class="col-md-12 mb-4">
+                                <div class="card h-100 shadow-sm d-flex flex-row">
+                                     <img src="<?= htmlspecialchars($row['image_path']) ?>" 
+                                      class="card-img-left" 
+                                        alt="<?= htmlspecialchars($row['name']) ?>" 
+                                        style="width: 40%; object-fit: cover; max-height: 200px;">
+                                        <div class="card-body" style="flex: 1; padding: 20px;">
+                                        <h5 class="card-title"><?= htmlspecialchars($row['name']) ?></h5>
+                                        <p class="card-text"><strong>Location:</strong> <?= htmlspecialchars($row['location']) ?></p>
+                                        <p><strong>Price:</strong> ₹<?= htmlspecialchars($row['price']) ?></p>
+                                        <p><?= htmlspecialchars($row['description']) ?></p>
+                                        <a href="<?= htmlspecialchars($row['website']) ?>" class="btn btn-primary" target="_blank">View Details</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <?php
+                            }
+                        } else {
+                            echo '<p>No projects available.</p>';
+                        }
+                        ?>
+                    </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for About Us -->
+<div class="modal fade" id="aboutUsModal" tabindex="-1" aria-labelledby="aboutUsModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="aboutUsModalLabel">Contact Us</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="index.php" method="POST">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Full Name</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email Address</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="subject" class="form-label">Subject</label>
+                        <input type="text" class="form-control" id="subject" name="subject" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="message" class="form-label">Message</label>
+                        <textarea class="form-control" id="message" name="message" rows="4" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
             </div>
         </div>
     </div>
